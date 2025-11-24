@@ -9,7 +9,7 @@ const ProtectedRoute = () => {
       console.error("Error parsing user data:", err);
     }
   }
-  if (!user || !user.access_token) {
+  if (!user || !user.token_user) {
     return <Navigate to="/login" replace />;
   }
   return <Outlet />;
