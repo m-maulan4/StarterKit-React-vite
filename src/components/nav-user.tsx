@@ -20,7 +20,6 @@ import { useNavigate } from "react-router";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  // const user = useAppSelector((state) => state.auth);
   const user = localStorage.getItem("username") ?? "";
   const [logoutApi] = useLogoutMutation();
   const dispatch = useAppDispatch();
@@ -42,7 +41,7 @@ export function NavUser() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground border"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground border gap-3 cursor-pointer"
               tooltip={user}
             >
               <Avatar className="h-8 w-8 rounded-lg">
@@ -51,11 +50,12 @@ export function NavUser() {
                   {user?.slice(0, 1).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="grid flex-1 text-left text-sm">
                 <span className="truncate text-xs">Wellcome</span>
-                <span className="truncate font-medium">{user}</span>
+                <span className="truncate font-semibold capitalize">
+                  {user}
+                </span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
