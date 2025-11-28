@@ -1,19 +1,28 @@
-import type React from "react";
-import type { IconName } from "lucide-react/dynamic";
 import Home from "@/layout/Home";
+import Keuangan from "@/layout/Keuangan";
+import type { RouterDataProps } from "./routerType";
+import { HomeIcon } from "lucide-react";
 
-interface RouterDataProps {
-  title: string;
-  icon: IconName;
-  path: string;
-  component: React.ComponentType;
-}
 const RouterNavMain: RouterDataProps[] = [
   {
     title: "Home",
-    icon: "house",
+    icon: HomeIcon,
     path: "/",
     component: Home,
+    subMenu: false,
+  },
+  {
+    title: "Keuangan",
+    icon: HomeIcon,
+    path: "keuangan",
+    subMenu: true,
+    items: [
+      {
+        title: "Laporan",
+        path: "laporan",
+        component: Keuangan,
+      },
+    ],
   },
 ];
 export default RouterNavMain;
