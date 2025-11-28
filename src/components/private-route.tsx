@@ -1,18 +1,35 @@
-import { Navigate, Outlet } from "react-router";
-const ProtectedRoute = () => {
-  const rawData = localStorage.getItem("user");
-  let user = null;
-  if (rawData) {
-    try {
-      user = JSON.parse(rawData);
-    } catch (err) {
-      console.error("Error parsing user data:", err);
-    }
-  }
-  if (!user || !user.token_user) {
-    return <Navigate to="/login" replace />;
-  }
-  return <Outlet />;
-};
+import { useLazyMeQuery } from "@/features/auth/authApi";
+import { logout, setCredentials } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/hooks/AppDispatch";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router";
 
-export default ProtectedRoute;
+export default function SessionRestore() {
+  const [trigger, { data, isSuccess, isError }] = useLazyMeQuery();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Otomatis cek sesi saat aplikasi dimuat
+    trigger();
+  }, [trigger]);
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      dispatch(
+        setCredentials({
+          username: data.username,
+          isLogin: true,
+        })
+      );
+    }
+
+    if (isError) {
+      dispatch(logout());
+      navigate("/login");
+    }
+  }, [isSuccess, isError, data, dispatch]);
+
+  // Render children setelah selesai cek sesi
+  return <Outlet />;
+}

@@ -1,6 +1,6 @@
 export interface AuthState {
   username: string;
-  token_user: string;
+  isLogin: boolean;
 }
 export interface LoginRequest {
   username: string;

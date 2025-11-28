@@ -1,8 +1,38 @@
 import { GalleryVerticalEnd } from "lucide-react";
 
 import { LoginForm } from "@/components/login-form";
+import { useLazyMeQuery } from "./authApi";
+import { useAppDispatch } from "@/hooks/AppDispatch";
+import { useEffect } from "react";
+import { logout, setCredentials } from "./authSlice";
+import { useNavigate } from "react-router";
 
 export default function LoginPage() {
+  const [trigger, { data, isSuccess, isError }] = useLazyMeQuery();
+  const dispatch = useAppDispatch();
+  const navitage = useNavigate();
+
+  useEffect(() => {
+    // Otomatis cek sesi saat aplikasi dimuat
+    trigger();
+  }, [trigger]);
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      dispatch(
+        setCredentials({
+          username: data.username,
+          isLogin: true,
+        })
+      );
+      navitage("/");
+    }
+
+    if (isError) {
+      dispatch(logout());
+    }
+  }, [isSuccess, isError, data, dispatch]);
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

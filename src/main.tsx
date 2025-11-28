@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import RouterNavMain from "@/routers/RouterNavMain.ts";
 import RouterNavMainSecond from "@/routers/RouterNavMainSecond.ts";
 import { ThemeProvider } from "@/components/theme-provider.tsx";
-import LoginPage from "./features/auth/Login.tsx";
+import LoginPage from "./features/auth/LoginPage.tsx";
 import { Provider } from "react-redux";
 import ProtectedRoute from "./components/private-route.tsx";
 import { store } from "./store/store.ts";
