@@ -4,7 +4,6 @@ import "./index.css";
 import Dashboard from "./layout/Dashboard.tsx";
 import { BrowserRouter, Route, Routes } from "react-router";
 import RouterNavMain from "@/routers/RouterNavMain.ts";
-import RouterNavMainSecond from "@/routers/RouterNavMainSecond.ts";
 import { ThemeProvider } from "@/components/theme-provider.tsx";
 import LoginPage from "./features/auth/LoginPage.tsx";
 import { Provider } from "react-redux";
@@ -18,11 +17,14 @@ createRoot(document.getElementById("root")!).render(
           <Routes>
             <Route element={<ProtectedRoute />}>
               <Route element={<Dashboard />}>
-                {RouterNavMain.map((r) => (
-                  <Route path={r.path} element={<r.component />} />
+                {RouterNavMain.filter((f) => f.subMenu === false).map((r) => (
+                  <Route
+                    path={r.path}
+                    element={r.component && <r.component />}
+                  />
                 ))}
-                {RouterNavMainSecond.map((r) => {
-                  return r.items.map((rr) => (
+                {RouterNavMain.filter((f) => f.subMenu === true).map((r) => {
+                  return r.items!.map((rr) => (
                     <Route
                       key={rr.path}
                       path={r.path + "/" + rr.path}
