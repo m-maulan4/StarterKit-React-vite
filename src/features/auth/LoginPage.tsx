@@ -1,37 +1,11 @@
 import { GalleryVerticalEnd } from "lucide-react";
-
 import { LoginForm } from "@/components/login-form";
-import { useLazyMeQuery } from "./authApi";
-import { useAppDispatch } from "@/hooks/AppDispatch";
-import { useEffect } from "react";
-import { logout, setCredentials } from "./authSlice";
-import { useNavigate } from "react-router";
+import { useMeQuery } from "./authApi";
+import { Navigate } from "react-router";
 
 export default function LoginPage() {
-  const [trigger, { data, isSuccess, isError }] = useLazyMeQuery();
-  const dispatch = useAppDispatch();
-  const navitage = useNavigate();
-
-  useEffect(() => {
-    // Otomatis cek sesi saat aplikasi dimuat
-    trigger();
-  }, [trigger]);
-
-  useEffect(() => {
-    if (isSuccess && data) {
-      dispatch(
-        setCredentials({
-          username: data.username,
-          isLogin: true,
-        })
-      );
-      navitage("/");
-    }
-
-    if (isError) {
-      dispatch(logout());
-    }
-  }, [isSuccess, isError, data, dispatch]);
+  const { isSuccess } = useMeQuery();
+  if (isSuccess) return <Navigate to={"/"} replace />;
 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
@@ -52,7 +26,7 @@ export default function LoginPage() {
       </div>
       <div className="bg-muted relative hidden lg:block">
         <img
-          src="/placeholder.svg"
+          src="/login.svg"
           alt="Image"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />

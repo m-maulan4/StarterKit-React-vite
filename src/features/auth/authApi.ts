@@ -16,10 +16,11 @@ export const authApi = createApi({
     me: builder.query<{ username: string }, void>({
       query: () => "/me",
     }),
-    logout: builder.mutation<void, void>({
+    logout: builder.mutation<{ msg: string }, void>({
       query: () => ({
         url: "/auth/logout",
         method: "POST",
+        body: { action: "logout" },
       }),
     }),
   }),
