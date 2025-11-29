@@ -19,7 +19,7 @@ export default function SessionRestore() {
       dispatch(
         setCredentials({
           username: data.username,
-          isLogin: true,
+          token_user: data.token_user,
         })
       );
     }

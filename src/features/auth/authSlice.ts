@@ -3,7 +3,7 @@ import type { AuthState } from "./authType";
 
 const initialState: AuthState = {
   username: "",
-  isLogin: false,
+  token_user: "",
 };
 
 const authSlice = createSlice({
@@ -12,12 +12,12 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action: PayloadAction<AuthState>) => {
       state.username = action.payload.username;
-      state.isLogin = true;
+      state.token_user = action.payload.token_user;
       localStorage.setItem("username", action.payload.username);
     },
     logout: (state) => {
       state.username = "";
-      state.isLogin = false;
+      state.token_user = "";
       localStorage.removeItem("username");
     },
   },

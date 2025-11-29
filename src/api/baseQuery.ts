@@ -24,15 +24,16 @@ export const baseQueryWithReauth: BaseQueryFn<
     const refreshResult = await baseQuery("/auth/newtoken", api, extraOptions);
 
     if (refreshResult.data) {
-      const { username } = refreshResult.data as {
+      const { username, token_user } = refreshResult.data as {
         username: string;
+        token_user: string;
       };
 
       // update state dengan accessToken baru
       api.dispatch(
         setCredentials({
           username,
-          isLogin: true,
+          token_user,
         })
       );
 
