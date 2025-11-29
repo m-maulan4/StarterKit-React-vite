@@ -5,10 +5,10 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
-    me: builder.query<void, void>({
+    me: builder.query<{ username: string; token_user: string }, void>({
       query: () => "/me",
     }),
   }),
 });
 
-export const { useMeQuery } = userApi;
+export const { useMeQuery, useLazyMeQuery } = userApi;

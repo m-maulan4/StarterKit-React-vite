@@ -1,7 +1,7 @@
 import { GalleryVerticalEnd } from "lucide-react";
 import { LoginForm } from "@/components/login-form";
-import { useMeQuery } from "./authApi";
 import { Navigate } from "react-router";
+import { useMeQuery } from "../user/userApi";
 
 export default function LoginPage() {
   const { isSuccess } = useMeQuery();

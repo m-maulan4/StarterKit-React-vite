@@ -1,18 +1,20 @@
-import { useLazyMeQuery } from "@/features/auth/authApi";
 import { logout, setCredentials } from "@/features/auth/authSlice";
-import { useAppDispatch } from "@/hooks/AppDispatch";
+import { useLazyMeQuery } from "@/features/user/userApi";
+import { useAppDispatch, useAppSelector } from "@/hooks/AppDispatch";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
 
-export default function SessionRestore() {
+export default function ProtectedRoute() {
   const [trigger, { data, isSuccess, isError }] = useLazyMeQuery();
   const dispatch = useAppDispatch();
+  const selector = useAppSelector((state) => state.auth.token_user);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Otomatis cek sesi saat aplikasi dimuat
-    trigger();
-  }, [trigger]);
+    if (selector == null) {
+      trigger();
+    }
+  }, [trigger, selector]);
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -29,7 +31,5 @@ export default function SessionRestore() {
       navigate("/login");
     }
   }, [isSuccess, isError, data, dispatch]);
-
-  // Render children setelah selesai cek sesi
   return <Outlet />;
 }
