@@ -6,7 +6,7 @@ export const userApi = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     me: builder.query<{ username: string; token_user: string }, void>({
-      query: () => "/me",
+      query: () => "/user/me",
     }),
   }),
 });
