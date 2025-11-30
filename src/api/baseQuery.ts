@@ -10,6 +10,13 @@ import { setCredentials, logout } from "@/features/auth/authSlice";
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_URL,
   credentials: "include",
+  prepareHeaders: (headers) => {
+    const token = JSON.parse(localStorage.getItem("token_app") || "{}")?.token;
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+    return headers;
+  },
 });
 
 export const baseQueryWithReauth: BaseQueryFn<

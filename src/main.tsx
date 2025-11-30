@@ -15,25 +15,28 @@ createRoot(document.getElementById("root")!).render(
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            <Route element={<ProtectedRoute />}>
-              <Route element={<Dashboard />}>
-                {RouterNavMain.filter((f) => f.subMenu === false).map((r) => (
+            {/* <Route element={<ProtectedRoute />}> */}
+            <Route
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            >
+              {RouterNavMain.filter((f) => f.subMenu === false).map((r) => (
+                <Route path={r.path} element={r.component && <r.component />} />
+              ))}
+              {RouterNavMain.filter((f) => f.subMenu === true).map((r) => {
+                return r.items!.map((rr) => (
                   <Route
-                    path={r.path}
-                    element={r.component && <r.component />}
+                    key={rr.path}
+                    path={r.path + "/" + rr.path}
+                    element={<rr.component />}
                   />
-                ))}
-                {RouterNavMain.filter((f) => f.subMenu === true).map((r) => {
-                  return r.items!.map((rr) => (
-                    <Route
-                      key={rr.path}
-                      path={r.path + "/" + rr.path}
-                      element={<rr.component />}
-                    />
-                  ));
-                })}
-              </Route>
+                ));
+              })}
             </Route>
+            {/* </Route> */}
             <Route path="/login" element={<LoginPage />} />
           </Routes>
         </BrowserRouter>

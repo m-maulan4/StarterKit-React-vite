@@ -20,7 +20,7 @@ import { useNavigate } from "react-router";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const user = localStorage.getItem("username") ?? "";
+  const user = JSON.parse(localStorage.getItem("token_app") || "{}")?.username;
   const [logoutApi] = useLogoutMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

@@ -1,20 +1,19 @@
 import { logout, setCredentials } from "@/features/auth/authSlice";
 import { useLazyMeQuery } from "@/features/user/userApi";
-import { useAppDispatch, useAppSelector } from "@/hooks/AppDispatch";
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router";
+import { useAppDispatch } from "@/hooks/AppDispatch";
+import { useEffect, type ReactNode } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
-export default function ProtectedRoute() {
+export default function ProtectedRoute({ children }: { children: ReactNode }) {
   const [trigger, { data, isSuccess, isError }] = useLazyMeQuery();
   const dispatch = useAppDispatch();
-  const selector = useAppSelector((state) => state.auth.token_user);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (selector == null) {
-      trigger();
-    }
-  }, [trigger, selector]);
+    const token = JSON.parse(localStorage.getItem("token_app") || "{}")?.token;
+    if (!token) trigger();
+  }, [trigger]);
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -24,12 +23,11 @@ export default function ProtectedRoute() {
           token_user: data.token_user,
         })
       );
-    }
-
-    if (isError) {
+    } else if (isError) {
       dispatch(logout());
-      navigate("/login");
+      navigate("/login", { replace: true });
+      toast.warning("Login terlebih dahulu");
     }
   }, [isSuccess, isError, data, dispatch]);
-  return <Outlet />;
+  return <>{children}</>;
 }
