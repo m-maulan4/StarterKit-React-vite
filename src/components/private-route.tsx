@@ -11,10 +11,10 @@ export default function ProtectedRoute({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token) return;
     const AuthCheck = async () => {
       try {
-        await triggerMe();
+        if (token) return;
+        await triggerMe().unwrap();
         if (isSuccess && data) {
           dispatch(setCredentials(data));
         }
@@ -23,6 +23,7 @@ export default function ProtectedRoute({ children }: { children: ReactNode }) {
       }
     };
     AuthCheck();
-  }, [triggerMe, data, isSuccess, dispatch]);
+  }, [triggerMe, data, isSuccess, dispatch, token, navigate]);
+
   return children;
 }
