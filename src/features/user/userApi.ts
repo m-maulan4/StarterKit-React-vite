@@ -1,14 +1,15 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { baseQueryWithReauth } from "@/api/baseQuery";
+import { baseQuery } from "@/api/baseQuery";
+import type { getMeType } from "./userType";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: baseQueryWithReauth,
+  baseQuery,
   endpoints: (builder) => ({
-    me: builder.query<{ username: string; token_user: string }, void>({
-      query: () => "/user/me",
+    user: builder.query<getMeType, void>({
+      query: () => "/",
     }),
   }),
 });
 
-export const { useMeQuery, useLazyMeQuery } = userApi;
+export const { useUserQuery } = userApi;

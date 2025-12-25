@@ -7,6 +7,7 @@ import { useLoginMutation } from "@/features/auth/authApi";
 import { setCredentials } from "@/features/auth/authSlice";
 import { useAppDispatch } from "@/hooks/AppDispatch";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 export function LoginForm({
   className,
@@ -14,7 +15,7 @@ export function LoginForm({
 }: React.ComponentProps<"form">) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [login, { isLoading, error }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -24,8 +25,9 @@ export function LoginForm({
       const result = await login({ username, password }).unwrap();
       dispatch(setCredentials(result));
       navigate("/");
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      const msg = error as { status: number; data: string };
+      toast.error(msg.data);
     }
   };
 
@@ -62,11 +64,6 @@ export function LoginForm({
             required
           />
         </div>
-        {error && (
-          <div className="error-message">
-            Login failed. Please check your credentials.
-          </div>
-        )}
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Login"}
         </Button>

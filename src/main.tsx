@@ -15,7 +15,6 @@ createRoot(document.getElementById("root")!).render(
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            {/* <Route element={<ProtectedRoute />}> */}
             <Route
               element={
                 <ProtectedRoute>
@@ -36,7 +35,6 @@ createRoot(document.getElementById("root")!).render(
                 ));
               })}
             </Route>
-            {/* </Route> */}
             <Route path="/login" element={<LoginPage />} />
           </Routes>
         </BrowserRouter>

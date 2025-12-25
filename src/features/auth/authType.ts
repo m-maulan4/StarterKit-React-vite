@@ -1,6 +1,6 @@
 export interface AuthState {
-  username: string | null;
-  token_user: string | null;
+  username: string;
+  token: string;
 }
 export interface LoginRequest {
   username: string;

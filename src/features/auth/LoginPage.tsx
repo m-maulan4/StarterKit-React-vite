@@ -1,11 +1,12 @@
 import { GalleryVerticalEnd } from "lucide-react";
 import { LoginForm } from "@/components/login-form";
 import { Navigate } from "react-router";
-import { useMeQuery } from "../user/userApi";
+import { useAppSelector } from "@/hooks/AppDispatch";
+import { Toaster } from "sonner";
 
 export default function LoginPage() {
-  const { isSuccess } = useMeQuery();
-  if (isSuccess) return <Navigate to={"/"} replace />;
+  const token = useAppSelector((state) => state.auth.token);
+  if (token) return <Navigate to={"/"} replace />;
 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
@@ -25,6 +26,12 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
+        <Toaster
+          position="top-right"
+          richColors
+          theme="light"
+          className="capitalize"
+        />
         <img
           src="/login.svg"
           alt="Image"

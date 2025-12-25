@@ -14,19 +14,19 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { logout } from "@/features/auth/authSlice";
-import { useLogoutMutation } from "@/features/auth/authApi";
-import { useAppDispatch } from "@/hooks/AppDispatch";
+import { useAppDispatch, useAppSelector } from "@/hooks/AppDispatch";
 import { useNavigate } from "react-router";
+import { useLazyLogoutQuery } from "@/features/auth/authApi";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const user = JSON.parse(localStorage.getItem("token_app") || "{}")?.username;
-  const [logoutApi] = useLogoutMutation();
+  const user = useAppSelector((state) => state.auth.username) ?? "user";
+  const [logoutApi] = useLazyLogoutQuery();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      await logoutApi().unwrap();
+      await logoutApi();
       dispatch(logout());
       navigate("/login");
     } catch (error) {
