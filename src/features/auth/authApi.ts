@@ -15,9 +15,6 @@ export const authApi = createApi({
         method: "POST",
         body: credentials,
       }),
-      // transformErrorResponse: (response: { status: number; data: unknown }) => {
-      //   return response.data;
-      // },
     }),
     logout: builder.query<void, void>({
       query: () => "logout",
