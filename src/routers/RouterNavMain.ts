@@ -1,7 +1,8 @@
 import Home from "@/layout/Home";
 import Keuangan from "@/layout/Keuangan";
 import type { RouterDataProps } from "./routerType";
-import { HomeIcon } from "lucide-react";
+import { HomeIcon, User } from "lucide-react";
+import UserIndex from "@/features/user";
 
 const RouterNavMain: RouterDataProps[] = [
   {
@@ -9,6 +10,13 @@ const RouterNavMain: RouterDataProps[] = [
     icon: HomeIcon,
     path: "/",
     component: Home,
+    subMenu: false,
+  },
+  {
+    title: "User",
+    icon: User,
+    path: "user",
+    component: UserIndex,
     subMenu: false,
   },
   {

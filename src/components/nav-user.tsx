@@ -26,7 +26,7 @@ export function NavUser() {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      await logoutApi();
+      await logoutApi().unwrap();
       dispatch(logout());
       navigate("/login");
     } catch (error) {
@@ -45,7 +45,6 @@ export function NavUser() {
               tooltip={user}
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user} alt={user} />
                 <AvatarFallback className="rounded-lg">
                   {user?.slice(0, 1).toUpperCase()}
                 </AvatarFallback>
